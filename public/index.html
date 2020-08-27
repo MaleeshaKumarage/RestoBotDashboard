@@ -39,5 +39,113 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script language="JavaScript" type="text/javascript">
+   
+     
+          //specialCharUni[2]='්‍ර'; specialChar[2]='ra';
+          
+      
+      function startText() {
+          var s,r,v;
+          var tt=document.getElementById('formGroupIntentText');
+          console.log(tt.value);
+          //Get Call google.language.transliterate() suggetions
+  
+          // $.ajax({
+          // url: "https://inputtools.google.com/request?text="+tt.value+"&itc=si-t-i0-und&num=5",
+          // type: "GET",
+          // contentType: "application/json",
+          // dataType:'json',
+          // success: function(result) {
+           
+          //     console.log(result);
+          // },
+          // error: function(result) {
+          //     console.log(result);
+          // }
+      });
+  
+  
+  
+  
+  
+          text = tt.value;  
+          //special consonents
+          for (var i=0; i<specialConsonants.length; i++){
+              text = text.replace(specialConsonants[i], specialConsonantsUni[i]);
+          }
+          //consonents + special Chars
+          for (var i=0; i<specialCharUni.length; i++){
+              for (var j=0;j<consonants.length;j++){
+                  s = consonants[j] + specialChar[i];
+                  v = consonantsUni[j] + specialCharUni[i];
+                  r = new RegExp(s, "g");
+                  text = text.replace(r, v);
+              }
+          }
+          //consonants + Rakaransha + vowel modifiers
+          for (var j=0;j<consonants.length;j++){
+              for (var i=0;i<vowels.length;i++){
+                  s = consonants[j] + "r" + vowels[i];
+                  v = consonantsUni[j] + "්‍ර" + vowelModifiersUni[i];
+                  r = new RegExp(s, "g");
+                  text = text.replace(r, v);
+              }
+              s = consonants[j] + "r";
+              v = consonantsUni[j] + "්‍ර";
+              r = new RegExp(s, "g");
+              text = text.replace(r, v);
+          }
+          //consonents + vowel modifiers
+          for (var i=0;i<consonants.length;i++){
+              for (var j=0;j<nVowels;j++){ 
+                  s = consonants[i]+vowels[j];
+                  v = consonantsUni[i] + vowelModifiersUni[j];
+                  r = new RegExp(s, "g");
+                  text = text.replace(r, v);
+              }
+          }
+      
+          //consonents + HAL
+          for (var i=0; i<consonants.length; i++){
+              r = new RegExp(consonants[i], "g");
+              text = text.replace(r, consonantsUni[i]+"්");
+          }
+              
+          //vowels
+          for (var i=0; i<vowels.length; i++){
+              r = new RegExp(vowels[i], "g");
+              text = text.replace(r, vowelsUni[i]);
+          }
+      
+          //document.txtBox.box2.value=text;
+          document.getElementById("userInput").innerHTML = text;
+         
+      }
+      
+      function copyit(theField) {
+          var tempval=eval("document."+theField);
+          tempval.focus();
+          tempval.select();
+          therange=tempval.createTextRange();
+          therange.execCommand("Copy")
+      }
+      
+      var schemeVisible = 0;
+      function changeVisibility(){
+          if (schemeVisible){
+              document.getElementById('scheme').style.visibility='hidden';
+              document.getElementById('link').innerHTML="&nbsp;Show Transliteration Scheme&nbsp;";
+              schemeVisible=0;
+          }
+          else{
+              document.getElementById('scheme').style.visibility='visible';
+              document.getElementById('link').innerHTML="&nbsp;&nbsp;Hide Transliteration Scheme&nbsp;";
+              schemeVisible=1;
+          }
+      }
+      
+      
+          </script>
   </body>
 </html>
